@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+int absVal(int x) {
+    return x < 0 ? -x : x;
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+
+    int arr[n];
+    int i;
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    qsort(arr, n, sizeof(int), compare);
+
+    int left = 0;
+    int right = n - 1;
+    int minSum = INT_MAX;
+    int x = 0, y = 0;
+
+    while (left < right) {
+        int sum = arr[left] + arr[right];
+
+        if (absVal(sum) < absVal(minSum)) {
+            minSum = sum;
+            x = arr[left];
+            y = arr[right];
+        }
+
+        if (sum < 0)
+            left++;
+        else
+            right--;
+    }
+
+    printf("%d %d\n", x, y);
+
+    return 0;
+}
+
